@@ -65,9 +65,9 @@ router.post("/req",  async (req, res) => {
   });
 
   //GET requisiciones
-router.get("/req", async (req, res) => {
+router.get("/requisiciones", async (req, res) => {
   try {
-    const userId = req.userData.userId;
+    const userId = "ZA51560";
 
     //get devices
     var req = await Requisicion.find({ userId: userId });

@@ -48,55 +48,22 @@
         <thead>
           <tr>
             <th class="text-left">LCP Code</th>
+            <th class="text-left">Tipo de Proyecto</th>
+            <th class="text-left">Categoria</th>
             <th class="text-left">Nombre</th>
-            <th class="text-left">Fecha Creacion</th>
+            <th class="text-left">Locacion</th>
             <th class="text-left">Acciones</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="project in projects" :key="project.lcpCode">
             <td>{{ project.lcpCode }}</td>
+            <td>{{ project.type }}</td>
+            <td>{{ project.projectType }}</td>
             <td>{{ project.nombre }}</td>
-            <td>{{ project.created }}</td>
+            <td>{{ project.locacion }}</td>
             <td>
-              <v-dialog v-model="dialog" width="600">
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn
-                    color="green lighten-2"
-                    dark
-                    v-bind="attrs"
-                    v-on="on"
-                    @click="showReq(project)"
-                    small
-                    placeholder="Ver requisiciones"
-                    ><v-icon dark>mdi-eye</v-icon></v-btn
-                  >
-                </template>
-                <v-card>
-                  <v-card-title>Requisiciones</v-card-title>
-                  <v-card-text>
-                    <v-simple-table>
-                      <thead>
-                        <tr>
-                          <th class="text-left">Shopping Cart</th>
-                          <th class="text-left">Nombre</th>
-                          <th class="text-left">Costo</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr
-                          v-for="requisicion in requisiciones"
-                          :key="requisicion.shoppingCart"
-                        >
-                          <td>{{ requisicion.shoppingCart }}</td>
-                          <td>{{ requisicion.descripcionGasto }}</td>
-                          <td>{{ requisicion.cost }}</td>
-                        </tr>
-                      </tbody>
-                    </v-simple-table>
-                  </v-card-text>
-                </v-card>
-              </v-dialog>
+              
               <v-dialog v-model="dialogEdit" width="600">
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
@@ -132,7 +99,7 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-btn plain @click="updateProject">Modificar</v-btn>
-                    <v-btn plain>Cancelar</v-btn>
+                    <v-btn plain @click="closeProject">Cancelar</v-btn>
                 </v-card-actions>
             </v-card>
               </v-dialog>
@@ -158,6 +125,43 @@
                     <v-btn plain @click="borrar(project)">Borrar</v-btn>
                     <v-btn plain @click="cerrar">Cancelar</v-btn>
                   </v-card-actions>
+                </v-card>
+              </v-dialog>
+              <v-dialog v-model="dialog" width="600">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    color="green lighten-2"
+                    dark
+                    v-bind="attrs"
+                    v-on="on"
+                    @click="showReq(project)"
+                    small
+                    ><v-icon dark>mdi-cash</v-icon></v-btn
+                  >
+                </template>
+                <v-card>
+                  <v-card-title>Requisiciones</v-card-title>
+                  <v-card-text>
+                    <v-simple-table>
+                      <thead>
+                        <tr>
+                          <th class="text-left">Shopping Cart</th>
+                          <th class="text-left">Nombre</th>
+                          <th class="text-left">Costo</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr
+                          v-for="requisicion in requisiciones"
+                          :key="requisicion.shoppingCart"
+                        >
+                          <td>{{ requisicion.shoppingCart }}</td>
+                          <td>{{ requisicion.descripcionGasto }}</td>
+                          <td>{{ requisicion.cost }}</td>
+                        </tr>
+                      </tbody>
+                    </v-simple-table>
+                  </v-card-text>
                 </v-card>
               </v-dialog>
             </td>
@@ -234,6 +238,9 @@ export default {
     },
     cerrar() {
       this.dialogDelete = false;
+    },
+    closeProject(){
+        this.dialogEdit = false
     },
     async borrar(item) {
       const project = item;

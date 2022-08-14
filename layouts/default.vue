@@ -103,9 +103,14 @@ export default {
           to: '/'
         },
         {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire'
+          icon: 'mdi-wrench',
+          title: 'PROYECTOS',
+          to: '/project'
+        },
+        {
+          icon: 'mdi-cash',
+          title: 'REQUISICIONES',
+          to: '/requisiciones'
         }
       ],
       miniVariant: false,
