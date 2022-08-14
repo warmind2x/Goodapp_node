@@ -17,8 +17,11 @@ import Project from "../models/project";
 //NEW DEVICE
 router.post("/project",  async (req, res) => {
     try {
-      console.log(req.body)
-      var newProject = req.body;
+      console.log(req.userId)
+      var newProject = req.body.newProject;
+      newProject.userId = 'za51560'
+      newProject.status = 'OPEN'
+      console.log(newProject)
      
       
   
@@ -90,6 +93,7 @@ router.get("/project",  async (req, res) => {
 
 //DELETE DEVICE
 router.delete("/project",   async (req, res) => {
+  console.log(req)
   try {
     const lcpCode = req.query.lcpCode;
     
@@ -125,7 +129,8 @@ router.delete("/project",   async (req, res) => {
 //UPDATE DEVICE (SELECTOR)
 router.put("/project",  async (req, res) => {
   try {
-    var editProject = req.body.editProject;
+    console.log(req.body)
+    var editProject = req.body.editedProject;
 
     const project = await Project.replaceOne({lcpCode: editProject.lcpCode},editProject);
 
