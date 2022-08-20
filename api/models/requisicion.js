@@ -6,14 +6,11 @@ const Schema = mongoose.Schema;
 
 const reqSchema = new Schema({
   shoppingCart: { type: String, required: [true], unique:true},
-  lcpCode: {type: String},
-  nombreProyecto: {type: String},
   descripcionGasto: {type: String, required: [true]},
   cost: {type: Number, default: null},
   ordenCompra: {type: Number, default: null},
   fechaGasto: {type: String, required:[true]},
-  projectId: { type: Schema.Types.ObjectId, ref: 'Project' },
-  userId: {type: String, required:[true]},
+  projectId: [{ type: Schema.Types.ObjectId, ref: 'Project' }],
   created: {type: Date, default: Date.now()}
 });
 

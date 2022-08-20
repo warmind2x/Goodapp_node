@@ -29,9 +29,14 @@
                         <v-row>
                             <v-col cols="12" sm="8" md="8"><v-text-field label="Descripcion Gasto" v-model="newShoppingCart.descripcionGasto"></v-text-field></v-col>
                             <v-col cols="12" sm="3" md="3"><v-text-field label="Costo" v-model="newShoppingCart.cost"></v-text-field></v-col>
+                            <v-col cols="12" sm="3" md="3"><v-text-field label="Fecha" v-model="newShoppingCart.fechaGasto"></v-text-field></v-col>
                         </v-row>
                     </v-container>
                 </v-card-text>
+                <v-card-actions>
+                    <v-btn plain @click="guardar_sc">Aceptar</v-btn>
+                    <v-btn plain>Cancelar</v-btn>
+                </v-card-actions>
             </v-card>
         </v-dialog>
     </v-toolbar>
@@ -176,6 +181,37 @@ export default {
     },
     async deleteReq(item){
         console.log(item)
+    },
+    async guardar_sc(){
+        const axiosHeaders={
+            userId:"ZA51560"
+        };
+
+        const toSend={
+            newReq: this.newShoppingCart
+        };
+
+        try {
+        const res= await this.$axios.post("/req", toSend, axiosHeaders)
+        if (res.data.status == "success") {
+            this.dialogReq = false,
+            this.newShoppingCart={
+                lcpCode:"",
+                descripcionGasto:"",
+                fechaGasto:"",
+                shoppingCart:null,
+                cost:null,
+                },
+                this.get_req(),
+
+            console.log("Creado")
+        }
+
+            
+        } catch (error) {
+            console.error(error)
+        }
+
     },
     },
 

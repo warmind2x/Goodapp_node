@@ -17,52 +17,44 @@ import Requisicion from "../models/requisicion.js";
 
 // Create Requisiciones
 router.post("/req",  async (req, res) => {
-    try {
-      console.log(req.body)
-      var project = await Project.findOne({lcpCode: req.body.lcpCode});
-      
-      
-      
-      const requisicion = new Requisicion({
-        _id: new mongoose.Types.ObjectId(),
-        shoppingCart: req.body.shoppingCart,
-        descripcionGasto: req.body.descripcionGasto,
-        ordenCompra: req.body.ordenCompra,
-        fechaGasto: req.body.fechaGasto,
-        userId: req.body.userId,
-        cost: req.body.cost,
-        lcpCode: project.lcpCode,
-        nombreProyecto: project.nombre
-      });
+  try {
+    const requisicion = new Requisicion({
+      _id: new mongoose.Types.ObjectId(),
+      shoppingCart: req.body.newReq.shoppingCart,
+      descripcionGasto: req.body.newReq.descripcionGasto,
+      cost: Number(req.body.newReq.cost),
+      ordenCompra: req.body.newReq.ordenCompra,
+      fechaGasto: req.body.newReq.fechaGasto
+       
+    });
 
-      requisicion.save( async function (err) {
-        if (err) return handleError(err);
-        project.requisiciones.push(requisicion._id);
-        console.log(project);
-        const resp = await Project.updateOne({lcpCode:project.lcpCode},{requisiciones:project.requisiciones});
-        console.log(resp.modifiedCount);
+    const savedRequisicion = await requisicion.save()
 
-      });
-      
+    const project = await Project.findOne({lcpCode:req.body.newReq.lcpCode})
+    project.requisiciones.push(savedRequisicion._id)
+    const savedProject = await project.save()
+    console.log(savedProject)
+
      
-  
-      const response = {
-        status: "success"
-      };
-  
-      return res.json(response);
-    } catch (error) {
-      console.log("ERROR CREATING NEW REQUESITION");
-      console.log(error);
-  
-      const response = {
-        status: "error",
-        error: error
-      };
-  
-      return res.status(500).json(response);
-    }
-  });
+   
+
+    const response = {
+      status: "success"
+    };
+
+    return res.json(response);
+  } catch (error) {
+    console.log("ERROR CREATING NEW REQUESITION");
+    console.log(error);
+
+    const response = {
+      status: "error",
+      error: error
+    };
+
+    return res.status(500).json(response);
+  }
+});
 
   //GET requisiciones
 router.get("/requisiciones", async (req, res) => {
