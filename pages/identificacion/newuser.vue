@@ -32,6 +32,8 @@
             <v-card-actions>
                 <v-btn plain :disabled="!valid" @click="register">Registrar</v-btn>
                 <v-btn plain @click="reset">Reset</v-btn>
+                <v-divider vertical ></v-divider>
+                <v-icon right>mdi-login</v-icon>
             </v-card-actions>
 
         </v-card>
@@ -77,7 +79,8 @@ export default {
                 userId:"",
                 email:"",
                 password:""
-                }
+                },
+                this.$refs.form.resetValidation()
                 
             }
 
