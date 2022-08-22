@@ -19,6 +19,12 @@
 
                 </v-form>
                 <v-divider></v-divider>
+                <v-alert
+                v-model="alert"
+                dismissible
+                type="error"> Usuario o Password incorrecto
+
+                </v-alert>
             </v-card-text>
             <v-card-actions>
                 <v-btn plain :disabled="!valid" @click="login">Entrar</v-btn>
@@ -38,6 +44,7 @@ export default {
         return {
             valid: false,
             show1:false,
+            alert:false,
             user:{
                 userId:"",
                 password:""
@@ -51,10 +58,17 @@ export default {
         },
         async login(){
              const res = await this.$axios.post("/login", this.user)
-             console.log(res)
+             
+             if (res.data.status == "error") {
+                this.alert = true
+                this.$refs.login.reset()
+             }
+            
              if (res.data.status == "success") {
                 console.log(res.data)
-             }
+                this.alert = true
+                
+             } 
         }
     },
 

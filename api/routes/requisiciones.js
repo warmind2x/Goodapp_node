@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 var mongoose = require('mongoose');
 
-
+const { checkAuth } = require("../middlewares/authentication.js");
 
 import Project from "../models/project.js";
 import Requisicion from "../models/requisicion.js";
@@ -16,8 +16,9 @@ import Requisicion from "../models/requisicion.js";
 //******************
 
 // Create Requisiciones
-router.post("/req",  async (req, res) => {
+router.post("/req", checkAuth, async (req, res) => {
   try {
+    console.log(req)
     const requisicion = new Requisicion({
       _id: new mongoose.Types.ObjectId(),
       shoppingCart: req.body.newReq.shoppingCart,
